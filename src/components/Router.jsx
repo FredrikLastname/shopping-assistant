@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 
 import Main from "./Main"
 import Welcome from "./Welcome"
@@ -7,7 +7,7 @@ import PageNotFound from "./PageNotFound"
 
 const Router=()=>(
 
-    <BrowserRouter basename='/shopass'>
+    <HashRouter>
         <div>
             <Switch>
                 <Route path="/" component = { Welcome } exact = {true}/>
@@ -15,7 +15,7 @@ const Router=()=>(
                 <Route component ={PageNotFound} />
             </Switch>
         </div>
-    </BrowserRouter>
+    </HashRouter>
 )
 
 export default Router;
