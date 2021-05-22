@@ -229,9 +229,11 @@ class Main extends React.Component {
         
     }
 
-    createOffer(content, index){
+    createOffer(content){
         // console.log(content.key);
-        return <Offer 
+        return <Offer
+            key = {content.key} //Kan det här funka?
+
             offerId = {content.key}
             title = {content.title} 
             offer = {content.offer} 
