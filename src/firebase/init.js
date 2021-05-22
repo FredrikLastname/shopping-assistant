@@ -1,6 +1,9 @@
 import firebase from "firebase"
+import "firebase/app"
+import "firebase/auth"
+import "firebase/firestore"
 
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBgJdeDgMMbaA323UaJDPyE1i9EsbCUO4k",
     authDomain: "shopper-helper-project.firebaseapp.com",
     projectId: "shopper-helper-project",

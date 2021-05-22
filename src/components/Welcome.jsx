@@ -7,7 +7,9 @@ import {Form, Button} from "react-bootstrap"
 import CryptoJS from "crypto-js";
 import slugify from "slugify"
 import firebase from "firebase"
+// import { auth } from "firebase"
 import db from "../firebase/init"
+
 
 import AlertComp from "./AlertComp";
 import PopUp from "./PopUp"

@@ -230,6 +230,7 @@ class Main extends React.Component {
     }
 
     createOffer(content, index){
+        // console.log(content.key);
         return <Offer 
             offerId = {content.key}
             title = {content.title} 

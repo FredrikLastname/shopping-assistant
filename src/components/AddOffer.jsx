@@ -156,6 +156,28 @@ function AddOffer(props){
               </Form.Group>
             </Col>
         </Form.Row>
+        <Form.Row>
+            <Col>
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Control
+                type="date"
+                name="expires" 
+                onChange={onInputChange}
+                placeholder="erbjudandet upphör den..." 
+                // value={offer.expires}
+                autoComplete="off"
+                />
+                <RequiredFieldSmallAlert />
+              </Form.Group>
+            </Col>
+          
+            <Col>
+              <Form.Text>Om inget datum anges upphör erbjudandet gälla efter 10 dagar</Form.Text>
+            </Col>
+
+        </Form.Row>
+
+        
         
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Control 
