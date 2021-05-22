@@ -1,5 +1,4 @@
-import firebase from "firebase"
-import "firebase/app"
+import firebase from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
 
@@ -12,8 +11,18 @@ const firebaseConfig = {
     appId: "1:694847745443:web:c6816d1f60f938411e7e16",
     measurementId: "G-X3EX7P4PSJ"
   };
-  // Initialize Firebase
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
 
-  export default firebaseApp.firestore();
+  if(!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig)
+  }else{
+    firebase.app()
+  }
+
+  const fireAuth = firebase.auth();
+  const fireDatabase = firebase.firestore()
+  
+  // firebase.analytics();
+
+  //export default firebaseApp.firestore();
+
+  export { fireAuth, fireDatabase }

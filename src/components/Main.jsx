@@ -1,6 +1,6 @@
 import React from "react";
 //import firebase from "firebase"
-import db from "../firebase/init"
+import { fireDatabase } from "../firebase/init"
 import {Spinner} from "react-bootstrap";
 
 import Offer from "./Offer"
@@ -49,7 +49,7 @@ class Main extends React.Component {
 
         let temp = []
 
-        db.collection("tips").get()
+        fireDatabase.collection("tips").get()
         .then(snapshot =>{
             snapshot.forEach(doc => {
                 let tip = doc.data()
@@ -109,7 +109,7 @@ class Main extends React.Component {
 
         // console.log("uid-in -> ", uid );
 
-        const ref = db.collection("users").where("user_id", "==", uid)
+        const ref = fireDatabase.collection("users").where("user_id", "==", uid)
 
         ref.get()
         .then((querySnapshot) => {
@@ -137,7 +137,7 @@ class Main extends React.Component {
 
             // console.log(newOffer);
 
-            db.collection("tips").add({
+            fireDatabase.collection("tips").add({
                 //newOffer
                 category: newOffer.category,
                 title: newOffer.title,
@@ -160,7 +160,7 @@ class Main extends React.Component {
 
     deleteOffer(id){
         
-        db.collection("tips").doc(id).delete()
+        fireDatabase.collection("tips").doc(id).delete()
         .then(()=>{
             console.log("dokumentet borttaget");
         }).catch(error =>{
@@ -287,7 +287,7 @@ class Main extends React.Component {
                             <NoOffers 
                                 resetClicked = {this.resetFilters} 
                             /> : 
-                        this.filterTest().map(this.createOffer, this.filterTest.key))
+                        this.filterTest().map(this.createOffer))
                     }
 
                 </div>

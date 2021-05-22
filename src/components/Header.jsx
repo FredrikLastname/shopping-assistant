@@ -2,7 +2,8 @@ import React, {useState} from "react"
 import { useHistory} from "react-router-dom";
 import {Button, Dropdown, DropdownButton, Form, Col} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import firebase from "firebase"
+// import firebase from "firebase"
+import { fireAuth } from "../firebase/init"
 
 import { faListUl } from '@fortawesome/free-solid-svg-icons'
 import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
@@ -46,7 +47,7 @@ function Header (props){
 
             sessionStorage.removeItem("loggedInUser")
             
-            firebase.auth().signOut().then(()=>{
+            fireAuth.signOut().then(()=>{
                 history.push("/");
             })
         }

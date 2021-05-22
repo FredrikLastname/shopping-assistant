@@ -6,9 +6,9 @@ import {Form, Button} from "react-bootstrap"
 // import { v4 as uuidv4 } from 'uuid';
 import CryptoJS from "crypto-js";
 import slugify from "slugify"
-import firebase from "firebase"
+// import firebase from "firebase"
 // import { auth } from "firebase"
-import db from "../firebase/init"
+import { fireAuth, fireDatabase } from "../firebase/init"
 
 
 import AlertComp from "./AlertComp";
@@ -119,7 +119,7 @@ class Welcome extends React.Component{
       })
 
       // Kollar om db innehåller användarnamnets "slug" - Är användarnamnet upptaget?
-      const ref = db.collection("users").doc(slug)
+      const ref = fireDatabase.collection("users").doc(slug)
 
       ref.get().then(doc =>{
         if(doc.exists){
@@ -127,10 +127,10 @@ class Welcome extends React.Component{
           this.setState(() =>({alertNumber:5}))
         }else{
           //Användarnamnet är ledigt -> Registrera ny användare
-          firebase.auth().createUserWithEmailAndPassword(email, password)
+          fireAuth.createUserWithEmailAndPassword(email, password)
           .then(cred =>{
             tempID = cred.user.uid
-            db.collection("users").doc(slug).set({
+            fireDatabase.collection("users").doc(slug).set({
               user_id: tempID,
               name: name,
               alias: slug,
@@ -153,7 +153,7 @@ class Welcome extends React.Component{
 
       //Inloggning av registrerad användare
       if(this.state.email && this.state.password){
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        fireAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(cred => {
           this.rensaAnv();
           this.letUserIn(cred.user.uid);
