@@ -3,6 +3,8 @@ import React from "react";
 import { fireDatabase } from "../firebase/init"
 import {Spinner} from "react-bootstrap";
 
+import { removePost } from "../scripts/delete"
+
 import Offer from "./Offer"
 import Header from "./Header";
 import NoOffers from "./NoOffers";
@@ -22,6 +24,7 @@ class Main extends React.Component {
         this.filterTest = this.filterTest.bind(this);
         this.resetFilters = this.resetFilters.bind(this);
         this.getUserName = this.getUserName.bind(this);
+
 
     
 
@@ -46,30 +49,60 @@ class Main extends React.Component {
         
         const tempCat = new Set();
         const tempLoc = new Set();
-
+        const date = Date.now();
         let temp = []
 
-        fireDatabase.collection("tips").get()
+        fireDatabase.collection("tips").orderBy("date", "desc").get()
         .then(snapshot =>{
             snapshot.forEach(doc => {
+                
                 let tip = doc.data()
                 tip.key = doc.id
-                temp.push(tip)
+                
+                if(tip.expires > date){
+                    temp.push(tip)
+                }else{
+                    console.log(tip.key, " har gått ut");
+                    removePost(tip.key)
+                }
+
+                // temp.sort((a, b) => {
+                //     let aDate = a.date;
+                //     let bDate = b.date;
+        
+                //     if(aDate < bDate){
+                //         return 1;
+                //     }
+                //     if(aDate > bDate){
+                //         return -1;
+                //     }
+        
+                //     return 0;
+                // })
+
             })
 
-            temp.sort((a, b) => {
-                let aDate = a.date;
-                let bDate = b.date;
+            // temp.forEach(post =>{
+                
+            //     if(post.expires < date){
+            //         console.log(post.key, " har gått ut");
+            //         this.removeExpiredPosts(post.key)
+            //     }
+            // })
+
+            // temp.sort((a, b) => {
+            //     let aDate = a.date;
+            //     let bDate = b.date;
         
-                if(aDate < bDate){
-                    return 1;
-                }
-                if(aDate > bDate){
-                    return -1;
-                }
+            //     if(aDate < bDate){
+            //         return 1;
+            //     }
+            //     if(aDate > bDate){
+            //         return -1;
+            //     }
         
-                return 0;
-            })
+            //     return 0;
+            // })
 
             temp.forEach(element => {
                 tempCat.add(element.category)
@@ -86,10 +119,27 @@ class Main extends React.Component {
         }).catch(error =>{
             console.log("getOffers() -> ", error);
         })
-
-        
-
     }
+
+    // removeExpiredPosts(id){
+
+    //     //
+    //     // fireDatabase.collection("tips").doc(id).delete().then(()=>{
+    //     //     console.log(id, " borttaget från databasen");
+    //     // }).catch((err)=>{
+    //     //     console.log(id, " gick inte att uppdatera i databasen", err);
+    //     // })
+
+    //     console.log(tip.key, " har gått ut");
+
+    //     fireDatabase.collection("tips").doc(id).update({
+    //         status: "expired"
+    //     }).then(()=>{
+    //         console.log(id, " uppdaterades i databasen");
+    //     }).catch((err)=>{
+    //         console.log(id, " gick inte att uppdatera i databasen", err);
+    //     })
+    // }
 
     componentDidMount(){
 
@@ -135,8 +185,6 @@ class Main extends React.Component {
         
         if(newOffer.title.length !== 0 && newOffer.offer.length !== 0){
 
-            // console.log(newOffer);
-
             fireDatabase.collection("tips").add({
                 //newOffer
                 category: newOffer.category,
@@ -146,7 +194,8 @@ class Main extends React.Component {
                 description: newOffer.description,
                 location: newOffer.location,
                 createdBy: newOffer.createdBy,
-                date: newOffer.date
+                date: newOffer.date,
+                expires: newOffer.expires,
             }).then((docRef)=>{
                 console.log("Document written with ID: ", docRef.id);
             }).catch(error =>{
@@ -160,6 +209,10 @@ class Main extends React.Component {
 
     deleteOffer(id){
         
+        //Använd removePost
+
+        // removePost(id)
+
         fireDatabase.collection("tips").doc(id).delete()
         .then(()=>{
             console.log("dokumentet borttaget");
@@ -230,7 +283,7 @@ class Main extends React.Component {
     }
 
     createOffer(content){
-        // console.log(content.key);
+        // console.log(typeof content.expires);
         return <Offer
             key = {content.key} //Kan det här funka?
 
@@ -240,7 +293,10 @@ class Main extends React.Component {
             store = {content.store}
             location = {content.location} 
             description = {content.description}
-            date = {new Date(parseInt(content.date)).toLocaleDateString()}
+
+            date = {content.date}
+            expires = {content.expires}
+
             createdBy = {content.createdBy}
             
             currentUser = {this.state.userName}

@@ -19,8 +19,13 @@ function Offer(props){
                 <p className="post-subtitle">{props.offer}</p>
                 <p>{props.store}, {props.location}</p>
                 <p className="post-description">{props.description}</p>
+
+                {(props.expires) && 
+                    <p className="post-date">Erbjudandet upphör den {new Date(parseInt(props.expires)).toLocaleDateString()}</p>
+                }
+
                 {(props.createdBy && props.date) &&
-                    <p className="post-date">Upplagt den {props.date} av {props.createdBy}</p>
+                    <p className="post-date">Upplagt den {new Date(parseInt(props.date)).toLocaleDateString()} av {props.createdBy}</p>
                 }
                 
                 {props.createdBy === props.currentUser &&

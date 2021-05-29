@@ -13,13 +13,17 @@ const exclamationIcon = <FontAwesomeIcon icon={faExclamationCircle} />
 const descriptionLength = 150;
 
 function AddOffer(props){
+
+  const secInTenDays = 10*24*60*60*1000;
+
   const [offer, setOffer] = useState({
   category: "",
   title: "",
   offer: "",
   store: "",
   description: "",
-  location: ""
+  location: "",
+  expires: (Date.now()+secInTenDays)
   })    
 
   const [validation, setValidation] = useState(true)
@@ -29,8 +33,12 @@ function AddOffer(props){
     setOffer(prevState =>{
       if(name === "description"){
         return {...prevState, description: value.substring(0, descriptionLength)}
+      } else if(name === "expires"){
+        return {...prevState, expires: Date.parse(value)}
       } else if(value === "Välj kategori") {
         return {...prevState, category: ""} 
+      } else if (value === "Tävling/Event"){
+        return {...prevState, category: "event"}
       } else {
         return {...prevState, [name]: value} 
       }
@@ -41,10 +49,11 @@ function AddOffer(props){
 
     if(validateOffer()){
       //Generera timestamp
-      const publishedDate = Date.now().toString();
+      //const publishedDate = Date.now().toString();
+      const publishedDate = Date.now();
       const createdBy = props.user;
-      const newOffer ={date: publishedDate, createdBy, ...offer}
       
+      const newOffer ={date: publishedDate, createdBy, ...offer}
       props.submitClicked(newOffer);
     }
   }
@@ -84,6 +93,7 @@ function AddOffer(props){
               <option className="option">Kläder</option>
               <option className="option">Hemelektronik</option>
               <option className="option">Utförsäljning</option>
+              <option className="option">Tävling/Event</option>
             </Form.Control>
             
         </Form.Group>
@@ -161,7 +171,9 @@ function AddOffer(props){
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Control
                 type="date"
-                name="expires" 
+                name="expires"
+                
+                min = {new Date(Date.now()).toLocaleDateString()} 
                 onChange={onInputChange}
                 placeholder="erbjudandet upphör den..." 
                 // value={offer.expires}
