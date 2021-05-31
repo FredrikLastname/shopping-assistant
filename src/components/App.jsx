@@ -2,7 +2,9 @@ import React from "react";
 import Footer from "./Footer";
 import Router from "./Router"
 
-class App2 extends React.Component{
+
+
+class App extends React.Component{
 
     render(){
         return(
@@ -15,4 +17,4 @@ class App2 extends React.Component{
     }
 }
 
-export default App2;
+export default App;

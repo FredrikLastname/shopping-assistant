@@ -21,6 +21,12 @@ header{
     padding-right: 30px;
 }
 
+.headerTwo{
+    background-color: blue;
+    top: 70px;
+    position: relative;
+}
+
 header .button-label{
     display: none;
 }
