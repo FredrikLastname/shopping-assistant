@@ -191,6 +191,21 @@ footer{
     padding: 0 6px;
 }
 
+.shoppingList{
+    text-align: left;
+    /* font-family: 'Sriracha', cursive;
+    font-size: larger;
+    color: rgb(61, 60, 60); */
+}
+
+.shoppingList label{
+    margin-left: 30px;
+    font-family: 'Sriracha', cursive;
+    font-size: larger;
+    color: rgb(61, 60, 60);
+    
+}
+
 .wrapper{
 
     background-color: whitesmoke;
