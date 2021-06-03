@@ -84,6 +84,40 @@ footer{
     padding-top: 1em;
     padding-bottom: 0.5em;
 }
+
+.hemText{
+    
+
+    /* background-color:whitesmoke; */
+    /* border-radius: 2px; */
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    width: 80%;
+    text-align: center;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -30px;
+    padding: 0.5em 2em;
+
+    max-width: 450px;
+    /* background-color: white; */
+    
+
+
+}
+.hemText-content{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5em 2em;
+    /* max-width: 450px; */
+    text-align: left;
+    
+
+}
+
+
+
+
 .post{
     background-color:lightyellow;
     border-radius: 2px;
@@ -221,6 +255,13 @@ footer{
 
 
     /* background-color: lightgreen; */
+}
+
+.wrapper__content_home{
+    margin-top: 5.5em;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .alert-text{
