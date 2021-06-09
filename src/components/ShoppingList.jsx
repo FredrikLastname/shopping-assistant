@@ -1,43 +1,124 @@
-import React, { useState} from "react"
+import React from "react"
+import {Spinner} from "react-bootstrap";
+import { fireDatabase } from "../firebase/init"
+import auth from "../firebase/auth"
 import {Button, InputGroup, Form, FormControl} from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
+
+
 const editIcon = <FontAwesomeIcon icon={faEdit} />
 
-function ShoppingList(){
+class ShoppingList extends React.Component {
     
-    const [tempItem, setTempItem] = useState("")
-    const [ item, setItem] = useState(["Bananer", "Ägg", "Yoghurt", "Jordgubbar"])
+    constructor(props){
+        super(props)
 
-    function onInputChange(event){
+        this.state ={
+            loading: true,
+            uid: null,
+            tempItem:"",
+            items: []
+            //items: ["Bananer", "Ägg", "Yoghurt", "Jordgubbar"]
+        }
+
+        this.deleteItem = this.deleteItem.bind(this)
+        this.onInputChange = this.onInputChange.bind(this)
+        this.onButtonClicked = this.onButtonClicked.bind(this)
+        this.getShoppingList = this.getShoppingList.bind(this)
+        this.saveShoppingList = this.saveShoppingList.bind(this)
+
+    }
+
+    // const [tempItem, setTempItem] = useState("")
+    // const [ item, setItem] = useState(["Bananer", "Ägg", "Yoghurt", "Jordgubbar"])
+
+    componentDidMount(){
+        
+        const tempUid = auth.getUid()
+        this.getShoppingList(tempUid);
+    }
+
+    getShoppingList(uid){
+        const tempArray =[];
+        // const uid = this.state.uid
+
+        console.log(uid);
+
+
+        const fetchedList = fireDatabase.collection("lists").doc(uid)
+
+        fetchedList.get()
+        .then(doc =>{
+            doc.data().shoppingList.forEach(item=>{
+                tempArray.push(item)
+                
+            })
+            
+            this.setState(()=>({items: [...tempArray], loading:false}))
+            
+        }).catch(err =>{
+            console.log(err);
+        })
+    }
+
+    saveShoppingList(newList){
+        const uid = auth.getUid()
+
+        console.log(newList);
+
+        const fetchedList = fireDatabase.collection("lists").doc(uid)
+        fetchedList.set({shoppingList: newList})
+    }
+
+    onInputChange(event){
         const {value} = event.target;
-        setTempItem(() =>(value))
+        
+        this.setState(()=>({tempItem:value}))
+        
+        //setTempItem(() =>(value))
     }
 
-    function onButtonClicked(){
-        setItem(prevState =>([...prevState, tempItem]))
-        setTempItem(()=>"")
+    onButtonClicked(){
+        const temp = this.state.tempItem
+        const tempArray =[...this.state.items, this.state.tempItem]
+
+        this.setState(prevState=>{
+            return {items: tempArray, 
+            tempItem: ""}
+
+        })
+        
+        // console.log(tempArray);
+
+        this.saveShoppingList(tempArray)
+        
+
+        // setItem(prevState =>([...prevState, this.state.tempItem]))
+        //setTempItem(()=>"")
     }
 
-    function deleteItem(clickedItemId){
+    deleteItem(clickedItemId){
         console.log(clickedItemId, " blev klickad");
         const tempArray = [];
         const id = Number.parseInt(clickedItemId)
+        const tempUid = auth.getUid()
 
-
-        item.forEach((thing, index)=>{
+        this.state.items.forEach((thing, index)=>{
             if(index !== id){
                 tempArray.push(thing)
             }
         })
 
-        setItem(()=>{return tempArray})
+        this.saveShoppingList(tempArray)
+        this.getShoppingList(tempUid)
+        // this.setState(()=>{return {items: tempArray}})
 
-        uncheckCheckBoxes();
+        this.uncheckCheckBoxes();
     }
 
-    function uncheckCheckBoxes(){
+    uncheckCheckBoxes(){
         const inputs = document.querySelectorAll("input[type='checkbox']");
 
         inputs.forEach(input =>{
@@ -45,55 +126,69 @@ function ShoppingList(){
         })
     }
 
-    return(
-        
-        <div className="post">
-            <div className="post-content">
-                <p className="title">Inköpslista</p>
+    render(){
+        return(
+            
+            <div className="post">
+                <div className="post-content">
+                    <p className="title">Inköpslista</p>
+    
+                    <Form>
+    
+                        <InputGroup className="mb-3">
+                            <FormControl
+                            placeholder="Lägg till en vara"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            onChange={this.onInputChange}
+                            value={this.state.tempItem}
+                            />
+                            <Button
+                            disabled = {!this.state.tempItem} 
+                            variant="outline-success" 
+                            id="button-addon2"
+                            onClick={this.onButtonClicked}
+                            >
+                            {editIcon}
+                            </Button>
+                        </InputGroup> 
 
-                <Form>
+                        {this.state.loading && 
+                        <div className="spinner">
+                            <Spinner 
+                            animation ="border" 
+                            variant ="primary"
+                            className="spinner" 
+                            />
+                        </div>
+                        }
 
-                    <InputGroup className="mb-3">
-                        <FormControl
-                        placeholder="Lägg till en vara"
-                        aria-label="Recipient's username"
-                        aria-describedby="basic-addon2"
-                        onChange={onInputChange}
-                        value={tempItem}
-                        />
-                        <Button
-                        disabled = {!tempItem} 
-                        variant="outline-success" 
-                        id="button-addon2"
-                        onClick={onButtonClicked}
-                        >
-                        {editIcon}
-                        </Button>
-                    </InputGroup>   
-                    <div className="shoppingList">
-                        <ul>
-                            {
-                                item.map((listItem, index)=>{
-                                    return <ListItem 
-                                        key = {index}
-                                        id = {index}
-                                        title = {listItem}
-                                        checkboxChecked = {deleteItem}
-                                    />
-                                })
-
-                            }
-
-                        </ul>
-
-                    </div>
-
-                </Form>
-
+                        <div className="shoppingList">
+                            <ul>
+                                {
+                                    this.state.items.map((listItem, index)=>{
+                                        return <ListItem 
+                                            key = {index}
+                                            id = {index}
+                                            title = {listItem}
+                                            checkboxChecked = {this.deleteItem}
+                                        />
+                                    })
+    
+                                }
+    
+                            </ul>
+    
+                        </div>
+    
+                    </Form>
+    
+                </div>
+    
             </div>
+        )
+    }
 
-        </div>
-    )
 }
 
 export default ShoppingList;

@@ -9,6 +9,7 @@ import Offer from "./Offer"
 import Header from "./Header";
 import NoOffers from "./NoOffers";
 import AddOffer from "./AddOffer";
+import auth from "../firebase/auth"
 
 class Main extends React.Component {
     
@@ -143,13 +144,14 @@ class Main extends React.Component {
 
     componentDidMount(){
 
-        //Använd uid för att hämta namn.
-        //lagrar inloggads användarnamn i session storage
-        this.setState(()=>({
-            userID: JSON.parse(sessionStorage.getItem("loggedInUser"))
-        }))
+        //Om data redan finns bör inte dessa operationer upprepas. T ex då användare går mellan sidor
+        
+        // this.setState(()=>({
+        //     userID: JSON.parse(sessionStorage.getItem("loggedInUser"))
+        // }))
 
-        this.getUserName(JSON.parse(sessionStorage.getItem("loggedInUser")))
+        this.getUserName(auth.getUid())
+        
         
         this.getOffers();
         
@@ -216,11 +218,11 @@ class Main extends React.Component {
         fireDatabase.collection("tips").doc(id).delete()
         .then(()=>{
             console.log("dokumentet borttaget");
+            this.getOffers();
         }).catch(error =>{
             console.log("Error removing document: ", error);
         })
 
-        this.getOffers();
     }
 
     filterCategories(chosenCategory){

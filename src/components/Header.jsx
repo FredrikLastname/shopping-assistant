@@ -1,19 +1,19 @@
 import React, {useState} from "react"
-import { useHistory} from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import {Button, Dropdown, DropdownButton, Form, Col} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import firebase from "firebase"
-import { fireAuth } from "../firebase/init"
+// import { fireAuth } from "../firebase/init"
 
 import { faListUl } from '@fortawesome/free-solid-svg-icons'
 import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+// import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faGifts } from '@fortawesome/free-solid-svg-icons'
 
 const listIcon = <FontAwesomeIcon icon={faListUl} />
 const locationIcon = <FontAwesomeIcon icon={faMapMarkedAlt} />
-const signOutIcon = <FontAwesomeIcon icon={faSignOutAlt} />
+// const signOutIcon = <FontAwesomeIcon icon={faSignOutAlt} />
 const editIcon = <FontAwesomeIcon icon={faEdit} />
 const giftsIcon = <FontAwesomeIcon icon={faGifts} />
 
@@ -39,34 +39,34 @@ function Header (props){
         props.addClicked();
     }
 
-    function LogOutButton(){
+    // function LogOutButton(){
 
-        const history = useHistory();
+    //     const history = useHistory();
 
-        function handleClick(){
+    //     function handleClick(){
 
-            sessionStorage.removeItem("loggedInUser")
+    //         sessionStorage.removeItem("loggedInUser")
             
-            fireAuth.signOut().then(()=>{
-                history.push("/");
-            })
-        }
+    //         fireAuth.signOut().then(()=>{
+    //             history.push("/");
+    //         })
+    //     }
 
-        return(
+    //     return(
 
-            <Button
-            className="button" 
-            variant="outline-danger"
-            onClick={handleClick}
-            >
+    //         <Button
+    //         className="button" 
+    //         variant="outline-danger"
+    //         onClick={handleClick}
+    //         >
             
-            {signOutIcon}
-            </Button>
-        )
-    }
+    //         {signOutIcon}
+    //         </Button>
+    //     )
+    // }
 
     return(
-        <header>
+        <header className="header">
             <Form>
                 <Form.Row>
                     <Col>
@@ -125,11 +125,21 @@ function Header (props){
                             </Button>
                         }
                     </Col>
-                    
+
                     <Col>
+                        <NavLink to="/home">
+                            <Button
+                            variant="outline-success"
+                            className="button"
+                            >
+                            Hem</Button>
+                        </NavLink>
+                    </Col>
+                    
+                    {/* <Col>
                         <Form.Label className="button-label">Logga ut</Form.Label>
                         <LogOutButton />
-                    </Col>
+                    </Col> */}
                 </Form.Row>
             </Form>
         </header>

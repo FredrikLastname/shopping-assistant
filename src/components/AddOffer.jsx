@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
-import AlertComp from "./AlertComp";
+// import AlertComp from "./AlertComp";
 import RequiredFieldSmallAlert from "./RequiredFieldSmallAlert";
 import {Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -71,13 +71,14 @@ function AddOffer(props){
 
   return(
     <div className="addPost">
-      <AlertComp 
+      {/* <AlertComp 
         variant = "info"
         alertMessage = "Tipsa andra om ett erbjudande!"
         // alertDetails = ""
-      />
+      /> */}
 
       <Form>
+        <p className ="title">Tipsa andra om ett erbjudande!</p>
         <Form.Group controlId="exampleForm.ControlSelect1">
             {(!validation && !offer.category) && <RequiredFieldAlert />}
             <Form.Control 
@@ -166,30 +167,6 @@ function AddOffer(props){
               </Form.Group>
             </Col>
         </Form.Row>
-        <Form.Row>
-            <Col>
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Control
-                type="date"
-                name="expires"
-                
-                min = {new Date(Date.now()).toLocaleDateString()} 
-                onChange={onInputChange}
-                placeholder="erbjudandet upphör den..." 
-                // value={offer.expires}
-                autoComplete="off"
-                />
-                <RequiredFieldSmallAlert />
-              </Form.Group>
-            </Col>
-          
-            <Col>
-              <Form.Text>Om inget datum anges upphör erbjudandet gälla efter 10 dagar</Form.Text>
-            </Col>
-
-        </Form.Row>
-
-        
         
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Control 
@@ -204,7 +181,39 @@ function AddOffer(props){
           <Form.Text className="text-muted">
           {descriptionLength - offer.description.length} tecken kvar
           </Form.Text>
+        
+
+          <Form.Row>
+              {/* <Col>
+              </Col> */}
+
+              <Col>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Control
+                  type="date"
+                  name="expires"
+                  
+                  min = {new Date(Date.now()).toLocaleDateString()} 
+                  onChange={onInputChange}
+                  placeholder="erbjudandet upphör den..." 
+                  // value={offer.expires}
+                  autoComplete="off"
+                  />
+                  <RequiredFieldSmallAlert />
+                <Form.Text className="text-muted">Om inget datum anges upphör erbjudandet gälla efter 10 dagar</Form.Text>
+                </Form.Group>
+              </Col>
+            
+              {/* <Col>
+              </Col>
+              <Col>
+              </Col> */}
+
+          </Form.Row>
+
         </Form.Group>
+        
+        
         
           
         <Form.Row>

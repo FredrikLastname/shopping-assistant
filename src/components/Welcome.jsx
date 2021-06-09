@@ -9,7 +9,7 @@ import slugify from "slugify"
 // import firebase from "firebase"
 // import { auth } from "firebase"
 import { fireAuth, fireDatabase } from "../firebase/init"
-
+import auth from "../firebase/auth"
 
 import AlertComp from "./AlertComp";
 import PopUp from "./PopUp"
@@ -95,6 +95,8 @@ class Welcome extends React.Component{
     }
   }
 
+
+  //Undersök om den tar emot uid.
   letUserIn(uid){
     sessionStorage.setItem("loggedInUser", JSON.stringify(uid))
     this.setState(()=>({
@@ -129,7 +131,8 @@ class Welcome extends React.Component{
           //Användarnamnet är ledigt -> Registrera ny användare
           fireAuth.createUserWithEmailAndPassword(email, password)
           .then(cred =>{
-            tempID = cred.user.uid
+            tempID = cred.user.uid;
+            
             fireDatabase.collection("users").doc(slug).set({
               user_id: tempID,
               name: name,
@@ -140,6 +143,7 @@ class Welcome extends React.Component{
           })
           .then(()=>{
             this.rensaAnv();
+            auth.login()
             this.letUserIn(tempID);
           })
           .catch(error => {
@@ -153,15 +157,19 @@ class Welcome extends React.Component{
 
       //Inloggning av registrerad användare
       if(this.state.email && this.state.password){
-        fireAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(cred => {
-          this.rensaAnv();
-          this.letUserIn(cred.user.uid);
-        })
-        .catch(error =>{
-          console.log(error.code, " ", error.message); //"auth/invalid-email", "auth/user-not-found" "auth/wrong-password"
-          this.setState(()=>({alertNumber: 7, alertMessage: error.message}))
-        })
+        auth.login(this.state.email, this.state.password)
+        .then(this.letUserIn(auth.getUid()))
+        
+        // fireAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
+        // .then(cred => {
+        //   this.rensaAnv();
+        //   auth.login()
+        //   this.letUserIn(cred.user.uid);
+        // })
+        // .catch(error =>{
+        //   console.log(error.code, " ", error.message); //"auth/invalid-email", "auth/user-not-found" "auth/wrong-password"
+        //   this.setState(()=>({alertNumber: 7, alertMessage: error.message}))
+        // })
       }
     }
   }
@@ -179,7 +187,7 @@ class Welcome extends React.Component{
         return <AlertComp 
                 variant ={"secondary"}
                 alertHeading = "Hej!"
-                alertMessage = "Logga in och se om det kommit in nya tips om erbjudanden!"
+                alertMessage = "Hoppas att allt är bra! :)"
                 alertDetails = "Du kan prova att registrera en ny användare eller så använder du 'waldrik[at]test.ba' och 'abc123' för att logga in."
               />
         // break;
@@ -254,7 +262,7 @@ class Welcome extends React.Component{
             <p>De främsta 'byggstenarna' i projektet bör väl anses vara React, React-bootstrap och Firebase.</p><br/><p>/Fredrik</p></div>}
           />
           
-          {this.state.redirect && <Redirect to="/2" />}
+          {this.state.redirect && <Redirect to="/home" />}
 
           <div className="post-content">
           
