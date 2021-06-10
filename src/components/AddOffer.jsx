@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
-// import AlertComp from "./AlertComp";
+
 import RequiredFieldSmallAlert from "./RequiredFieldSmallAlert";
 import {Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -49,7 +49,6 @@ function AddOffer(props){
 
     if(validateOffer()){
       //Generera timestamp
-      //const publishedDate = Date.now().toString();
       const publishedDate = Date.now();
       const createdBy = props.user;
       
@@ -71,12 +70,6 @@ function AddOffer(props){
 
   return(
     <div className="addPost">
-      {/* <AlertComp 
-        variant = "info"
-        alertMessage = "Tipsa andra om ett erbjudande!"
-        // alertDetails = ""
-      /> */}
-
       <Form>
         <p className ="title">Tipsa andra om ett erbjudande!</p>
         <Form.Group controlId="exampleForm.ControlSelect1">

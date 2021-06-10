@@ -6,8 +6,6 @@ import {Button, InputGroup, Form, FormControl} from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
-
-
 const editIcon = <FontAwesomeIcon icon={faEdit} />
 
 class ShoppingList extends React.Component {
@@ -17,43 +15,57 @@ class ShoppingList extends React.Component {
 
         this.state ={
             loading: true,
-            uid: null,
+            uid: "",
             tempItem:"",
             items: []
-            //items: ["Bananer", "Ägg", "Yoghurt", "Jordgubbar"]
         }
 
         this.deleteItem = this.deleteItem.bind(this)
         this.onInputChange = this.onInputChange.bind(this)
         this.onButtonClicked = this.onButtonClicked.bind(this)
         this.getShoppingList = this.getShoppingList.bind(this)
+        this.getUserID = this.getUserID.bind(this)
         this.saveShoppingList = this.saveShoppingList.bind(this)
 
     }
 
-    // const [tempItem, setTempItem] = useState("")
-    // const [ item, setItem] = useState(["Bananer", "Ägg", "Yoghurt", "Jordgubbar"])
-
     componentDidMount(){
-        
-        const tempUid = auth.getUid()
-        this.getShoppingList(tempUid);
+
+        this.getUserID()
+        .then(()=>{
+            this.getShoppingList()
+        });
     }
 
-    getShoppingList(uid){
+    async getUserID(){
+        
+        const value = auth.getUid()
+        this.setState({uid: value})
+        // return
+        
+    }
+
+    getShoppingList(){
+        
         const tempArray =[];
-        // const uid = this.state.uid
+        const uid = this.state.uid
 
-        console.log(uid);
-
+        console.log("Hejsan! ",uid);
 
         const fetchedList = fireDatabase.collection("lists").doc(uid)
 
         fetchedList.get()
         .then(doc =>{
+            
+            if(!doc.exists){
+                //console.log("Inköpslista ej tillgänglig");
+                this.setState(()=>({loading:false}))
+            }else{
+                console.log("Inköpslista tillgänglig");
+            }
+            
             doc.data().shoppingList.forEach(item=>{
                 tempArray.push(item)
-                
             })
             
             this.setState(()=>({items: [...tempArray], loading:false}))
@@ -65,19 +77,14 @@ class ShoppingList extends React.Component {
 
     saveShoppingList(newList){
         const uid = auth.getUid()
-
-        console.log(newList);
-
+        // console.log(newList);
         const fetchedList = fireDatabase.collection("lists").doc(uid)
         fetchedList.set({shoppingList: newList})
     }
 
     onInputChange(event){
         const {value} = event.target;
-        
         this.setState(()=>({tempItem:value}))
-        
-        //setTempItem(() =>(value))
     }
 
     onButtonClicked(){
@@ -85,18 +92,13 @@ class ShoppingList extends React.Component {
         const tempArray =[...this.state.items, this.state.tempItem]
 
         this.setState(prevState=>{
-            return {items: tempArray, 
-            tempItem: ""}
-
+            return {
+                items: tempArray, 
+                tempItem: ""
+            }
         })
-        
-        // console.log(tempArray);
 
         this.saveShoppingList(tempArray)
-        
-
-        // setItem(prevState =>([...prevState, this.state.tempItem]))
-        //setTempItem(()=>"")
     }
 
     deleteItem(clickedItemId){
@@ -113,8 +115,6 @@ class ShoppingList extends React.Component {
 
         this.saveShoppingList(tempArray)
         this.getShoppingList(tempUid)
-        // this.setState(()=>{return {items: tempArray}})
-
         this.uncheckCheckBoxes();
     }
 
@@ -132,7 +132,9 @@ class ShoppingList extends React.Component {
             <div className="post">
                 <div className="post-content">
                     <p className="title">Inköpslista</p>
-    
+                    {(this.state.items.length ===0 && this.state.loading === false) && <p className="hemText-content">
+                    En behändig liten inköpslista så du kommer ihåg vad du tänkte köpa med dig hem från affären!
+                    </p>}
                     <Form>
     
                         <InputGroup className="mb-3">
@@ -196,22 +198,13 @@ export default ShoppingList;
 
 function ListItem(props){
 
-    // const [isChecked, setIsChecked] = useState(false)
-
     function handleCheckbox(e){
         const {id} = e.target
-        // e.stopPropagation();
-        // e.preventDefault();
-        // setIsChecked(!isChecked)
         if(e.target.checked){
             setTimeout(()=>{
-                
                 props.checkboxChecked(id)
             }, 500)
-
         }
-
-        // props.checkboxChecked(id)
     }
 
     return(
@@ -221,12 +214,9 @@ function ListItem(props){
             id={props.id} 
             name={`${props.title}_${props.id}`} 
             value={`${props.title}_${props.id}`} 
-            // defaultChecked ={isChecked}
-            // checked={isChecked}
             onChange={handleCheckbox}
             />
             <label 
-            //for={`${props.title}_${props.id}`}
             > 
             {props.title}
             </label>

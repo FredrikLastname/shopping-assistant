@@ -1,5 +1,4 @@
 import React from "react";
-//import firebase from "firebase"
 import { fireDatabase } from "../firebase/init"
 import {Spinner} from "react-bootstrap";
 
@@ -16,7 +15,6 @@ class Main extends React.Component {
     constructor(props){
         super(props)
         this.deleteOffer = this.deleteOffer.bind(this);
-        // this.editOffer = this.editOffer.bind(this);
         this.addOffer = this.addOffer.bind(this);
         this.submitNewOffer = this.submitNewOffer.bind(this);
         this.createOffer = this.createOffer.bind(this);
@@ -25,9 +23,6 @@ class Main extends React.Component {
         this.filterTest = this.filterTest.bind(this);
         this.resetFilters = this.resetFilters.bind(this);
         this.getUserName = this.getUserName.bind(this);
-
-
-    
 
         this.state={
             categories: [],
@@ -66,44 +61,7 @@ class Main extends React.Component {
                     console.log(tip.key, " har gått ut");
                     removePost(tip.key)
                 }
-
-                // temp.sort((a, b) => {
-                //     let aDate = a.date;
-                //     let bDate = b.date;
-        
-                //     if(aDate < bDate){
-                //         return 1;
-                //     }
-                //     if(aDate > bDate){
-                //         return -1;
-                //     }
-        
-                //     return 0;
-                // })
-
             })
-
-            // temp.forEach(post =>{
-                
-            //     if(post.expires < date){
-            //         console.log(post.key, " har gått ut");
-            //         this.removeExpiredPosts(post.key)
-            //     }
-            // })
-
-            // temp.sort((a, b) => {
-            //     let aDate = a.date;
-            //     let bDate = b.date;
-        
-            //     if(aDate < bDate){
-            //         return 1;
-            //     }
-            //     if(aDate > bDate){
-            //         return -1;
-            //     }
-        
-            //     return 0;
-            // })
 
             temp.forEach(element => {
                 tempCat.add(element.category)
@@ -143,18 +101,9 @@ class Main extends React.Component {
     // }
 
     componentDidMount(){
-
         //Om data redan finns bör inte dessa operationer upprepas. T ex då användare går mellan sidor
-        
-        // this.setState(()=>({
-        //     userID: JSON.parse(sessionStorage.getItem("loggedInUser"))
-        // }))
-
         this.getUserName(auth.getUid())
-        
-        
         this.getOffers();
-        
     }
 
     getUserName(uid){
@@ -280,12 +229,9 @@ class Main extends React.Component {
                 return item.location === selLoc && item.category === selCat
             });
         };
-
-        
     }
 
     createOffer(content){
-        // console.log(typeof content.expires);
         return <Offer
             key = {content.key} //Kan det här funka?
 

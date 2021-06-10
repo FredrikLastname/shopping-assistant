@@ -30,9 +30,6 @@ class Home extends React.Component{
         ref.get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            // console.log("username -> ", doc.data().name);
-            
             this.setState(()=>({userName: doc.data().name}))
         });
         })
@@ -46,11 +43,10 @@ class Home extends React.Component{
         
         return(
             <div>
-                
                 <HeaderTwo/>
                 <div className ="wrapper__content_home">
                     <HemText name = {this.state.userName} />
-                    <ShoppingList uid={auth.getUid()}/>
+                    <ShoppingList/>
                 </div>   
             </div>
         )

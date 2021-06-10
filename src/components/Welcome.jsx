@@ -8,7 +8,7 @@ import CryptoJS from "crypto-js";
 import slugify from "slugify"
 // import firebase from "firebase"
 // import { auth } from "firebase"
-import { fireAuth, fireDatabase } from "../firebase/init"
+import { fireDatabase } from "../firebase/init"
 import auth from "../firebase/auth"
 
 import AlertComp from "./AlertComp";
@@ -104,7 +104,7 @@ class Welcome extends React.Component{
     }))
   }
 
-  verifyUser(){
+  async verifyUser(){
     
     //Vid registrering av ny användare
     if(!this.state.member){
@@ -129,10 +129,20 @@ class Welcome extends React.Component{
           this.setState(() =>({alertNumber:5}))
         }else{
           //Användarnamnet är ledigt -> Registrera ny användare
-          fireAuth.createUserWithEmailAndPassword(email, password)
-          .then(cred =>{
-            tempID = cred.user.uid;
-            
+          //fireAuth.createUserWithEmailAndPassword(email, password)
+          
+          auth.signup(email, password)
+          .then(() =>{
+                     
+            if(auth.getUid()){
+              tempID = auth.getUid();
+              // console.log("från Welcome/signup ", tempID);
+            }else{
+              console.log("inget UID");  
+            }
+          })
+          .then(()=>{
+
             fireDatabase.collection("users").doc(slug).set({
               user_id: tempID,
               name: name,
@@ -143,7 +153,6 @@ class Welcome extends React.Component{
           })
           .then(()=>{
             this.rensaAnv();
-            auth.login()
             this.letUserIn(tempID);
           })
           .catch(error => {
@@ -153,12 +162,23 @@ class Welcome extends React.Component{
         }
       })
 
-    } else{
+    }else{
 
       //Inloggning av registrerad användare
       if(this.state.email && this.state.password){
+
         auth.login(this.state.email, this.state.password)
-        .then(this.letUserIn(auth.getUid()))
+        .then(()=>{
+          
+          if(auth.getUid()){
+            const temp = auth.getUid()
+            // console.log("2- från Welcome ", temp);
+            this.letUserIn(temp)
+
+          }else{
+            console.log("inget UID");
+          }
+        })
         
         // fireAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
         // .then(cred => {
@@ -259,7 +279,9 @@ class Welcome extends React.Component{
             title = {<div>Innan vi börjar...</div>} 
             message = {<div><p>Tanken bakom programmet är att man som användare ska kunna lämna tips om rabatterade priser och/eller andra erbjudanden till andra användare. Och att användaren sedan enkelt ska kunna ta del av tips som andra lämnat.</p>
             <p>Programmet är under utveckling och data som sparats kan komma att försvinna under arbetets gång.</p>
-            <p>De främsta 'byggstenarna' i projektet bör väl anses vara React, React-bootstrap och Firebase.</p><br/><p>/Fredrik</p></div>}
+            <p>De främsta 'byggstenarna' i projektet bör väl anses vara React, React-bootstrap och Firebase.</p>
+            <p>Senast uppdaterad 10 juni 2021 med lite nytt innehåll och en del pyssel under ytan...</p>
+            <br/><p>/Fredrik</p></div>}
           />
           
           {this.state.redirect && <Redirect to="/home" />}
