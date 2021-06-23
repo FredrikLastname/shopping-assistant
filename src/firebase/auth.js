@@ -1,4 +1,6 @@
 import {fireAuth} from "./init"
+import {setCookie, readCookie, removeCookie} from "../cookie/cookie"
+
 class Auth{
     constructor(){
         this.authenticated = false;
@@ -10,6 +12,7 @@ class Auth{
         .then(cred =>{
             // console.log("signup 1");
             this.userID = cred.user.uid;
+            setCookie(cred.user.uid)
         })
         .then(()=>{
             // console.log("signup 2");
@@ -20,34 +23,12 @@ class Auth{
 
     }
 
-    // login(email, password){
-        
-    //     this.authenticated = true;
-        
-    //     fireAuth.signInWithEmailAndPassword(email, password)
-    //     .then(cred =>{
-            
-    //         if(cred.user.uid){
-    //             this.userID = cred.user.uid;
-                
-    //             this.authenticated = true;
-    //             console.log("1 - auth.login - Användare inloggad - ", this.userID)
-
-    //         }else{
-    //             console.log("bajs");
-    //         }
-
-    //     }).catch(error =>{
-    //         console.log(error.code, " ", error.message)
-    //     })
-    // }
-
-
     login = async (email, password)=>{
         return fireAuth.signInWithEmailAndPassword(email, password)
         .then(cred =>{
             // console.log("login 1");
             this.userID = cred.user.uid;
+            setCookie(cred.user.uid)
         }).then(()=>{
             // console.log("login 2");
             this.authenticated = true;
@@ -56,25 +37,36 @@ class Auth{
         })
     }
 
-
-
     logout(){
-        //this.authenticated = false;
         // console.log("Bye...")
         fireAuth.signOut()
         .then(()=>{
             this.authenticated = false;
             this.userID = null;
-            console.log("Användare utloggad - ");
+            removeCookie()
+            //console.log("Användare utloggad - ");
         })
-
-        // cb();
     }
 
-    isAuthenticated(){
-        console.log(this.authenticated)
-        return this.authenticated;
+    isAuthenticated = async() =>{
+        const cookie = readCookie()
+        
+        if(cookie) {
+            console.log("kakan läst: ", cookie);
+            this.uid = cookie
+            this.authenticated = true
+        }
+        
+        if(this.authenticated){
+            return this.authenticated
+        }
+        // if()
     }
+
+    // isAuthenticated(){
+    //     // console.log(this.authenticated)
+    //     return this.authenticated;
+    // }
 
     getUid(){
         // console.log(this.userID);

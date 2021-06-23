@@ -170,11 +170,13 @@ function AddOffer(props){
           placeholder="Valfri och kort beskrivning av erbjudandet"
           value={offer.description}
           autoComplete="off"
+          
           />
           <Form.Text className="text-muted">
           {descriptionLength - offer.description.length} tecken kvar
           </Form.Text>
         
+          {/* <hr/> */}
 
           <Form.Row>
               {/* <Col>
@@ -189,7 +191,8 @@ function AddOffer(props){
                   min = {new Date(Date.now()).toLocaleDateString()} 
                   onChange={onInputChange}
                   placeholder="erbjudandet upphör den..." 
-                  // value={offer.expires}
+                  // value="Erbjudandet upphör"
+                  //value={new Date(offer.expires).toLocaleDateString()}
                   autoComplete="off"
                   />
                   <RequiredFieldSmallAlert />

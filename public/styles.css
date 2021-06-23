@@ -246,6 +246,10 @@ footer{
     display: inline-block;
 }
 
+/* .addpost .text-muted{
+    margin-top: -0.5px;
+} */
+
 .cb-text{
     padding: 0 6px;
 }

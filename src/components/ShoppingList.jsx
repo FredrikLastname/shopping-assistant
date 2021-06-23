@@ -50,8 +50,8 @@ class ShoppingList extends React.Component {
         const tempArray =[];
         const uid = this.state.uid
 
-        console.log("Hejsan! ",uid);
-
+        // console.log("Hejsan! ",uid);
+        // console.log("fr shoppingList/getShoppingList 1");
         const fetchedList = fireDatabase.collection("lists").doc(uid)
 
         fetchedList.get()
@@ -61,7 +61,7 @@ class ShoppingList extends React.Component {
                 //console.log("Inköpslista ej tillgänglig");
                 this.setState(()=>({loading:false}))
             }else{
-                console.log("Inköpslista tillgänglig");
+                //console.log("Inköpslista tillgänglig");
             }
             
             doc.data().shoppingList.forEach(item=>{
@@ -69,17 +69,21 @@ class ShoppingList extends React.Component {
             })
             
             this.setState(()=>({items: [...tempArray], loading:false}))
+
+            // console.log("fr shoppingList/getShoppingList 2");
+
             
         }).catch(err =>{
             console.log(err);
         })
     }
 
-    saveShoppingList(newList){
+    async saveShoppingList(newList){
+        console.log("fr shoppingList/saveShoppingList");
         const uid = auth.getUid()
         // console.log(newList);
         const fetchedList = fireDatabase.collection("lists").doc(uid)
-        fetchedList.set({shoppingList: newList})
+        await fetchedList.set({shoppingList: newList}).then(()=>{this.getShoppingList()})
     }
 
     onInputChange(event){
@@ -88,7 +92,7 @@ class ShoppingList extends React.Component {
     }
 
     onButtonClicked(){
-        const temp = this.state.tempItem
+        // const temp = this.state.tempItem
         const tempArray =[...this.state.items, this.state.tempItem]
 
         this.setState(prevState=>{
@@ -102,10 +106,10 @@ class ShoppingList extends React.Component {
     }
 
     deleteItem(clickedItemId){
-        console.log(clickedItemId, " blev klickad");
+        // console.log("fr shoppingList/deleteItem - ", clickedItemId, " blev klickad");
         const tempArray = [];
         const id = Number.parseInt(clickedItemId)
-        const tempUid = auth.getUid()
+        //const tempUid = auth.getUid()
 
         this.state.items.forEach((thing, index)=>{
             if(index !== id){
@@ -113,12 +117,16 @@ class ShoppingList extends React.Component {
             }
         })
 
-        this.saveShoppingList(tempArray)
-        this.getShoppingList(tempUid)
-        this.uncheckCheckBoxes();
+        this.saveShoppingList(tempArray).then(()=>{
+            
+            this.uncheckCheckBoxes();
+        })
+        // this.getShoppingList(tempUid)
     }
 
     uncheckCheckBoxes(){
+
+        console.log("fr shoppingList/uncheckCheckBoxes");
         const inputs = document.querySelectorAll("input[type='checkbox']");
 
         inputs.forEach(input =>{
