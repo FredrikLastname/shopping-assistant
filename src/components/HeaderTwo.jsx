@@ -13,6 +13,17 @@ const signOutIcon = <FontAwesomeIcon icon={faSignOutAlt} />
 function HeaderTwo(){
     // const {url} = useRouteMatch();
     const history = useHistory();
+    
+    function logout(){
+        // console.log("logout klickad");
+        auth.logout()
+        .then(()=>{
+            // console.log("HederTwo/logout");
+            history.push("/")
+        })
+        
+    }
+
     return(
         <header className="header-main">
             <Form>
@@ -37,10 +48,13 @@ function HeaderTwo(){
                         <Button
                             variant="outline-danger"
                             className="button"
-                            onClick = {()=>{
-                                auth.logout();
-                                history.push("/")
-                            }}
+                            onClick = {
+                                // ()=>{
+                                // auth.logout();
+                                // history.push("/")
+                                // }
+                                logout
+                            }
                         >
                         {signOutIcon}
                         </Button>

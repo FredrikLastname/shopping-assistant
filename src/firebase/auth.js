@@ -6,6 +6,8 @@ class Auth{
         this.authenticated = false;
         this.userID = "";
     }
+    
+    //-------------------------------------------------------------------
 
     signup = async (email, password) =>{
         return fireAuth.createUserWithEmailAndPassword(email, password)
@@ -37,38 +39,35 @@ class Auth{
         })
     }
 
-    logout(){
-        // console.log("Bye...")
-        fireAuth.signOut()
+    logout = async () =>{
+        // console.log("auth/logout 1")
+        return fireAuth.signOut() //return är viktig!
         .then(()=>{
+            removeCookie()
+            // console.log("auth/logout 2 - Kakan borttagen - ");
             this.authenticated = false;
             this.userID = null;
-            removeCookie()
-            //console.log("Användare utloggad - ");
+            // console.log("auth/logout 3 - Användare utloggad - ");
         })
     }
 
-    isAuthenticated = async() =>{
+    //--------------------------------------------------
+
+    checkAuth = async() =>{
         const cookie = readCookie()
         
         if(cookie) {
-            console.log("kakan läst: ", cookie);
-            this.uid = cookie
+            this.userID = cookie
             this.authenticated = true
+            console.log("kakan läst: ", cookie);
         }
-        
-        if(this.authenticated){
-            return this.authenticated
-        }
-        // if()
     }
 
-    // isAuthenticated(){
-    //     // console.log(this.authenticated)
-    //     return this.authenticated;
-    // }
+    isAuthenticated = () =>{
+        return this.authenticated
+    }
 
-    getUid(){
+    getUid = () => {
         // console.log(this.userID);
         return this.userID;
     }

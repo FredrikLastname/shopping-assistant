@@ -1,19 +1,12 @@
 import React from "react";
-
 import { Redirect } from "react-router";
-
 import {Form, Button} from "react-bootstrap"
-// import { v4 as uuidv4 } from 'uuid';
 import CryptoJS from "crypto-js";
 import slugify from "slugify"
-// import firebase from "firebase"
-// import { auth } from "firebase"
 import { fireDatabase } from "../firebase/init"
 import auth from "../firebase/auth"
-
 import AlertComp from "./AlertComp";
 import PopUp from "./PopUp"
-// import RequiredFieldSmallAlert from "./RequiredFieldSmallAlert";
 
 class Welcome extends React.Component{
     
@@ -207,7 +200,7 @@ class Welcome extends React.Component{
         return <AlertComp 
                 variant ={"secondary"}
                 alertHeading = "Hej!"
-                alertMessage = "Hoppas att allt är bra! :)"
+                alertMessage = "Logga in och se vad du tycker om appen! :)"
                 alertDetails = "Du kan prova att registrera en ny användare eller så använder du 'waldrik[at]test.ba' och 'abc123' för att logga in."
               />
         // break;

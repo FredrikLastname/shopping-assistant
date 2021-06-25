@@ -24,7 +24,8 @@ class Home extends React.Component{
 
     getUserName(){
         
-        const uid = auth.getUid();
+        // const uid = auth.getUid()
+        const uid = auth.getUid()
         const ref = fireDatabase.collection("users").where("user_id", "==", uid)
 
         ref.get()
