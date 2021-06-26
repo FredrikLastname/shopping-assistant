@@ -1,15 +1,15 @@
 import Cookies from "js-cookie"
 
 const setCookie =(uid, expires = 2)=>{
-    Cookies.set("user", uid, {expires: expires})
+    Cookies.set("shoppingAssistantCookie", uid, {expires: expires})
 }
 
 const readCookie = () =>{
-    return Cookies.get("user")
+    return Cookies.get("shoppingAssistantCookie")
 }
 
 const removeCookie = () =>{
-    Cookies.remove("user")
+    Cookies.remove("shoppingAssistantCookie")
 }
 
 export {setCookie, readCookie, removeCookie}

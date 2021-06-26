@@ -9,12 +9,15 @@ class Auth{
     
     //-------------------------------------------------------------------
 
-    signup = async (email, password) =>{
+    signup = async (email, password, acceptsCookies) =>{
         return fireAuth.createUserWithEmailAndPassword(email, password)
         .then(cred =>{
             // console.log("signup 1");
             this.userID = cred.user.uid;
-            setCookie(cred.user.uid)
+
+            if(acceptsCookies){
+                setCookie(cred.user.uid)
+            }
         })
         .then(()=>{
             // console.log("signup 2");
@@ -25,12 +28,15 @@ class Auth{
 
     }
 
-    login = async (email, password)=>{
+    login = async (email, password, acceptsCookies)=>{
         return fireAuth.signInWithEmailAndPassword(email, password)
         .then(cred =>{
             // console.log("login 1");
             this.userID = cred.user.uid;
-            setCookie(cred.user.uid)
+            
+            if(acceptsCookies){
+                setCookie(cred.user.uid)
+            }
         }).then(()=>{
             // console.log("login 2");
             this.authenticated = true;

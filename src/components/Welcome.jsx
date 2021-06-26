@@ -7,6 +7,7 @@ import { fireDatabase } from "../firebase/init"
 import auth from "../firebase/auth"
 import AlertComp from "./AlertComp";
 import PopUp from "./PopUp"
+import CookieConsent from "react-cookie-consent";
 
 class Welcome extends React.Component{
     
@@ -23,6 +24,8 @@ class Welcome extends React.Component{
       member: true,
       redirect: false,
       buttonActive: false,
+
+      acceptsCookies: false,
 
       name: "",
       alias: "",
@@ -124,7 +127,7 @@ class Welcome extends React.Component{
           //Användarnamnet är ledigt -> Registrera ny användare
           //fireAuth.createUserWithEmailAndPassword(email, password)
           
-          auth.signup(email, password)
+          auth.signup(email, password, this.state.acceptsCookies)
           .then(() =>{
                      
             if(auth.getUid()){
@@ -160,7 +163,7 @@ class Welcome extends React.Component{
       //Inloggning av registrerad användare
       if(this.state.email && this.state.password){
 
-        auth.login(this.state.email, this.state.password)
+        auth.login(this.state.email, this.state.password, this.state.acceptsCookies)
         .then(()=>{
           
           if(auth.getUid()){
@@ -354,6 +357,21 @@ class Welcome extends React.Component{
                   buttonActive = {this.state.buttonActive}                  
                 />
             </Form>
+            <CookieConsent
+                    location="bottom"
+                    enableDeclineButton
+                    flipButtons
+                    buttonText="Ok!"
+                    declineButtonText ="Inga kakor..."
+                    cookieName="shoppingAssistantConsentCookie"
+                    onAccept={()=>{ this.setState(()=>({acceptsCookies:true})) }}
+                    onDecline={()=>{ this.setState(()=>({acceptsCookies:false})) }}
+                    style={{ background: "#2B373B" }}
+                    buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+                    expires={1}
+            >
+            Den lilla shoppingassistenten använder ett par små cookies för att göra livet lite enklare för användaren. Ok?
+            </CookieConsent>
           </div>
       </div>
     )
