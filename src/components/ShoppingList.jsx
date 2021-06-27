@@ -211,7 +211,7 @@ function ListItem(props){
         if(e.target.checked){
             setTimeout(()=>{
                 props.checkboxChecked(id)
-            }, 500)
+            }, 300)
         }
     }
 

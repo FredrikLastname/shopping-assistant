@@ -7,7 +7,7 @@ import { fireDatabase } from "../firebase/init"
 import auth from "../firebase/auth"
 import AlertComp from "./AlertComp";
 import PopUp from "./PopUp"
-import CookieConsent from "react-cookie-consent";
+import CookieConsent, { getCookieConsentValue } from "react-cookie-consent";
 
 class Welcome extends React.Component{
     
@@ -24,8 +24,6 @@ class Welcome extends React.Component{
       member: true,
       redirect: false,
       buttonActive: false,
-
-      acceptsCookies: false,
 
       name: "",
       alias: "",
@@ -102,6 +100,8 @@ class Welcome extends React.Component{
 
   async verifyUser(){
     
+    let acceptsCookies = getCookieConsentValue("shoppingAssistantConsentCookie")
+
     //Vid registrering av ny användare
     if(!this.state.member){
 
@@ -127,7 +127,7 @@ class Welcome extends React.Component{
           //Användarnamnet är ledigt -> Registrera ny användare
           //fireAuth.createUserWithEmailAndPassword(email, password)
           
-          auth.signup(email, password, this.state.acceptsCookies)
+          auth.signup(email, password, acceptsCookies)
           .then(() =>{
                      
             if(auth.getUid()){
@@ -163,7 +163,7 @@ class Welcome extends React.Component{
       //Inloggning av registrerad användare
       if(this.state.email && this.state.password){
 
-        auth.login(this.state.email, this.state.password, this.state.acceptsCookies)
+        auth.login(this.state.email, this.state.password, acceptsCookies)
         .then(()=>{
           
           if(auth.getUid()){
@@ -175,17 +175,6 @@ class Welcome extends React.Component{
             console.log("inget UID");
           }
         })
-        
-        // fireAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
-        // .then(cred => {
-        //   this.rensaAnv();
-        //   auth.login()
-        //   this.letUserIn(cred.user.uid);
-        // })
-        // .catch(error =>{
-        //   console.log(error.code, " ", error.message); //"auth/invalid-email", "auth/user-not-found" "auth/wrong-password"
-        //   this.setState(()=>({alertNumber: 7, alertMessage: error.message}))
-        // })
       }
     }
   }
@@ -203,7 +192,7 @@ class Welcome extends React.Component{
         return <AlertComp 
                 variant ={"secondary"}
                 alertHeading = "Hej!"
-                alertMessage = "Logga in och se vad du tycker om appen! :)"
+                alertMessage = "Logga in och se vad du tycker! :)"
                 alertDetails = "Du kan prova att registrera en ny användare eller så använder du 'waldrik[at]test.ba' och 'abc123' för att logga in."
               />
         // break;
@@ -218,7 +207,8 @@ class Welcome extends React.Component{
       case 2:
         return <AlertComp 
                 variant ={"primary"}
-                alertMessage = "Registrera dig genom att ange ett användarnamn. Välj sedan ett lösenord och bekräfta ditt lösenord genom att upprepa det."
+                alertHeading = "Registrera ett konto"
+                // alertMessage = "Registrera dig genom att ange ett användarnamn. Välj sedan ett lösenord och bekräfta ditt lösenord genom att upprepa det."
                 alertDetails = "Ditt lösenord måste bestå av minst 8 tecken. Stora och små bokstäver. Och siffror."
               />
         // break;
@@ -273,10 +263,10 @@ class Welcome extends React.Component{
       <div className="post">
           <PopUp
             title = {<div>Innan vi börjar...</div>} 
-            message = {<div><p>Tanken bakom programmet är att man som användare ska kunna lämna tips om rabatterade priser och/eller andra erbjudanden till andra användare. Och att användaren sedan enkelt ska kunna ta del av tips som andra lämnat.</p>
+            message = {<div><p>Tanken med programmet är att användare ska kunna lämna tips om rabatterade priser och/eller andra erbjudanden till andra användare. Och att användaren sedan enkelt ska kunna ta del av tips som andra lämnat.</p>
             <p>Programmet är under utveckling och data som sparats kan komma att försvinna under arbetets gång.</p>
             <p>De främsta 'byggstenarna' i projektet bör väl anses vara React, React-bootstrap och Firebase.</p>
-            <p>Senast uppdaterad 10 juni 2021 med lite nytt innehåll och en del pyssel under ytan...</p>
+            <p>Senast uppdaterad 26 juni 2021 med främst en del pyssel under ytan...</p>
             <br/><p>/Fredrik</p></div>}
           />
           
@@ -364,8 +354,6 @@ class Welcome extends React.Component{
                     buttonText="Ok!"
                     declineButtonText ="Inga kakor..."
                     cookieName="shoppingAssistantConsentCookie"
-                    onAccept={()=>{ this.setState(()=>({acceptsCookies:true})) }}
-                    onDecline={()=>{ this.setState(()=>({acceptsCookies:false})) }}
                     style={{ background: "#2B373B" }}
                     buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
                     expires={1}

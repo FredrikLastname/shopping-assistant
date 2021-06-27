@@ -12,7 +12,6 @@ class Auth{
     signup = async (email, password, acceptsCookies) =>{
         return fireAuth.createUserWithEmailAndPassword(email, password)
         .then(cred =>{
-            // console.log("signup 1");
             this.userID = cred.user.uid;
 
             if(acceptsCookies){
@@ -20,7 +19,6 @@ class Auth{
             }
         })
         .then(()=>{
-            // console.log("signup 2");
             this.authenticated = true;
         }).catch(error=>{
             console.log(error);
@@ -31,14 +29,12 @@ class Auth{
     login = async (email, password, acceptsCookies)=>{
         return fireAuth.signInWithEmailAndPassword(email, password)
         .then(cred =>{
-            // console.log("login 1");
             this.userID = cred.user.uid;
             
             if(acceptsCookies){
                 setCookie(cred.user.uid)
             }
         }).then(()=>{
-            // console.log("login 2");
             this.authenticated = true;
         }).catch(error =>{
             console.log(error.code, " ", error.message)
@@ -46,14 +42,11 @@ class Auth{
     }
 
     logout = async () =>{
-        // console.log("auth/logout 1")
         return fireAuth.signOut() //return är viktig!
         .then(()=>{
             removeCookie()
-            // console.log("auth/logout 2 - Kakan borttagen - ");
             this.authenticated = false;
             this.userID = null;
-            // console.log("auth/logout 3 - Användare utloggad - ");
         })
     }
 
@@ -74,7 +67,6 @@ class Auth{
     }
 
     getUid = () => {
-        // console.log(this.userID);
         return this.userID;
     }
 }
