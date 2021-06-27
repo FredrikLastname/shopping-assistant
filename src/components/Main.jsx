@@ -7,6 +7,7 @@ import { removePost } from "../scripts/delete"
 import Offer from "./Offer"
 import Header from "./Header";
 import NoOffers from "./NoOffers";
+import NoOffersFilter from "./NoOffersFilter";
 import AddOffer from "./AddOffer";
 import auth from "../firebase/auth"
 
@@ -22,7 +23,7 @@ class Main extends React.Component {
         this.filterLocations = this.filterLocations.bind(this);
         this.filterTest = this.filterTest.bind(this);
         this.resetFilters = this.resetFilters.bind(this);
-        this.getUserName = this.getUserName.bind(this);
+        this.getName = this.getName.bind(this);
 
         this.state={
             categories: [],
@@ -72,6 +73,7 @@ class Main extends React.Component {
             });
 
             this.setState(()=>({offers: temp, loading: false}))
+            //this.setState(()=>({loading: false}))
             this.setState(()=>({categories: ["Alla kategorier", ...tempCat]}))
             this.setState(()=>({location: ["Alla orter", ...tempLoc]}))
 
@@ -102,21 +104,18 @@ class Main extends React.Component {
 
     componentDidMount(){
         //Om data redan finns bör inte dessa operationer upprepas. T ex då användare går mellan sidor
-        this.getUserName(auth.getUid())
+        this.getName()
         this.getOffers();
     }
 
-    getUserName(uid){
-
-        // console.log("uid-in -> ", uid );
-
+    getName(){
+        const uid = auth.getUid()
         const ref = fireDatabase.collection("users").where("user_id", "==", uid)
-
         ref.get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            // console.log("username -> ", doc.data().name);
+            console.log("username -> ", doc.data().name);
             this.setState(()=>({userName: doc.data().name}))
         });
         })
@@ -273,9 +272,9 @@ class Main extends React.Component {
                     {this.state.loading && 
                         <div className="spinner">
                             <Spinner 
-                            animation ="border" 
-                            variant ="primary"
-                            className="spinner" 
+                                animation ="border" 
+                                variant ="primary"
+                                className="spinner" 
                             />
                         </div>
                     }
@@ -288,12 +287,17 @@ class Main extends React.Component {
                         />
                     }
 
-                    {!this.state.addOfferState &&
-                        (this.filterTest().length === 0 & !this.state.loading ? 
-                            <NoOffers 
+                    {(this.state.offers.length === 0 && !this.state.loading) && 
+                    <NoOffers 
+                        addOfferClicked = {this.addOffer}
+                    />}
+
+                    {(!this.state.addOfferState && !this.state.loading && this.state.offers.length !== 0) && 
+                        (this.filterTest().length === 0  ? 
+                            <NoOffersFilter 
                                 resetClicked = {this.resetFilters} 
                             /> : 
-                        this.filterTest().map(this.createOffer))
+                            this.filterTest().map(this.createOffer))
                     }
 
                 </div>
