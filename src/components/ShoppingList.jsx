@@ -153,6 +153,7 @@ class ShoppingList extends React.Component {
                             onChange={this.onInputChange}
                             value={this.state.tempItem}
                             />
+                            <InputGroup.Append>
                             <Button
                             disabled = {!this.state.tempItem} 
                             variant="outline-success" 
@@ -161,6 +162,8 @@ class ShoppingList extends React.Component {
                             >
                             {editIcon}
                             </Button>
+
+                            </InputGroup.Append>
                         </InputGroup> 
 
                         {this.state.loading && 

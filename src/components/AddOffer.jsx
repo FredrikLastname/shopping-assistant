@@ -163,13 +163,13 @@ function AddOffer(props){
         
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Control 
-          as="textarea" 
-          rows={3} 
-          name="description"
-          onChange={onInputChange}
-          placeholder="Valfri och kort beskrivning av erbjudandet"
-          value={offer.description}
-          autoComplete="off"
+            as="textarea" 
+            rows={3} 
+            name="description"
+            onChange={onInputChange}
+            placeholder="Valfri och kort beskrivning av erbjudandet"
+            value={offer.description}
+            autoComplete="off"
           
           />
           <Form.Text className="text-muted">
@@ -178,13 +178,16 @@ function AddOffer(props){
         
           {/* <hr/> */}
 
-          <Form.Row>
-              {/* <Col>
-              </Col> */}
+          
 
-              <Col>
-                <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Control
+        </Form.Group>
+        
+        <Form.Group>
+          <Form.Row>
+            <Col>
+              <Form.Group controlId="exampleForm.ControlInput1">
+                
+                <Form.Control
                   type="date"
                   name="expires"
                   
@@ -194,22 +197,13 @@ function AddOffer(props){
                   // value="Erbjudandet upphör"
                   //value={new Date(offer.expires).toLocaleDateString()}
                   autoComplete="off"
-                  />
-                  <RequiredFieldSmallAlert />
-                <Form.Text className="text-muted">Om inget datum anges upphör erbjudandet gälla efter 10 dagar</Form.Text>
-                </Form.Group>
-              </Col>
-            
-              {/* <Col>
-              </Col>
-              <Col>
-              </Col> */}
-
+                />
+                <RequiredFieldSmallAlert />
+              <Form.Text className="text-muted">Om inget datum anges upphör erbjudandet gälla efter 10 dagar</Form.Text>
+              </Form.Group>
+            </Col>
           </Form.Row>
-
         </Form.Group>
-        
-        
         
           
         <Form.Row>

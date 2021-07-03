@@ -347,6 +347,7 @@ class Welcome extends React.Component{
                   buttonActive = {this.state.buttonActive}                  
                 />
             </Form>
+
             <CookieConsent
                     location="bottom"
                     enableDeclineButton
@@ -360,6 +361,7 @@ class Welcome extends React.Component{
             >
             Den lilla shoppingassistenten använder ett par små cookies för att göra livet lite enklare för användaren. Ok?
             </CookieConsent>
+            
           </div>
       </div>
     )
