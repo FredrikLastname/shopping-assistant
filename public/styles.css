@@ -10,6 +10,11 @@ body{
     background-color: whitesmoke !important;
 
 }
+
+a{
+    cursor: pointer;
+}
+
 header{
     background-color:#e2e3e5;
     top: 0;
@@ -20,6 +25,10 @@ header{
     text-align: center;
     padding-left: 30px;
     padding-right: 30px;
+}
+
+.header-empty{
+    height: 70px;
 }
 
 /* .header-main{
@@ -47,6 +56,13 @@ header .button-label{
 header .button{
     margin: 1em 0 1em 0;
     display: inline-block;
+}
+
+.header-frontpage-title{
+    margin-top: 15px;
+    font-size: larger;
+    font-weight: 600;
+    
 }
 
 @media (min-width: 480px){
@@ -95,7 +111,7 @@ footer{
     bottom: 0;
     text-align: center;
     padding-top: 1em;
-    padding-bottom: 0.5em;
+    padding-bottom: 0.1em;
 }
 
 .hemText{
@@ -145,6 +161,12 @@ footer{
 
 }
 
+.post-white{
+    background-color: white;
+    margin-top: 0px;
+    
+}
+
 @media (min-width: 480px) {
     .post {
         /* display: inline-block; */
@@ -155,6 +177,8 @@ footer{
         margin-right: auto;
     }
 }
+
+
 
 .post-content{
     padding: 0.5em 2em;
@@ -297,7 +321,7 @@ footer{
     
     /* text-align: justify; */
     font-style: italic;
-    font-size: small;    
+    font-size: smaller;    
 }
 
 

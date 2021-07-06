@@ -34,10 +34,13 @@ class Auth{
             if(acceptsCookies){
                 setCookie(cred.user.uid)
             }
+
         }).then(()=>{
             this.authenticated = true;
+            
         }).catch(error =>{
             console.log(error.code, " ", error.message)
+            return error.message
         })
     }
 

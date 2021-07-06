@@ -119,7 +119,8 @@ class Welcome extends React.Component{
       // Kollar om db innehåller användarnamnets "slug" - Är användarnamnet upptaget?
       const ref = fireDatabase.collection("users").doc(slug)
 
-      ref.get().then(doc =>{
+      ref.get()
+      .then(doc =>{
         if(doc.exists){
           //Användarnamnet (slug) är upptaget
           this.setState(() =>({alertNumber:5}))

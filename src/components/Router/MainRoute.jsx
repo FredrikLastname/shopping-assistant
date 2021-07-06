@@ -1,6 +1,6 @@
 import React from "react"
 import {Redirect, Route} from "react-router-dom"
-import auth from "../firebase/auth"
+import auth from "../../firebase/auth"
 
 //ProtectedRoute tar emot props. Främst component. Övriga "sprids ut" som ...otherProps
 

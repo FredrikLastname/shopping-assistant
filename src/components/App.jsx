@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "./Footer";
-import Router from "./Router"
+import Router from "./Router/Router"
 import auth from "../firebase/auth"
 
 
