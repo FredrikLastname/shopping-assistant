@@ -5,7 +5,7 @@ import {Spinner} from "react-bootstrap";
 import { removePost } from "../scripts/delete"
 
 import Offer from "./Offer"
-import Header from "./Header";
+import Header from "./Header/Header";
 import NoOffers from "./NoOffers";
 import NoOffersFilter from "./NoOffersFilter";
 import AddOffer from "./AddOffer";
@@ -114,8 +114,7 @@ class Main extends React.Component {
         ref.get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log("username -> ", doc.data().name);
+            // console.log("username -> ", doc.data().name);
             this.setState(()=>({userName: doc.data().name}))
         });
         })
@@ -160,7 +159,6 @@ class Main extends React.Component {
     deleteOffer(id){
         
         //Använd removePost
-
         // removePost(id)
 
         fireDatabase.collection("tips").doc(id).delete()

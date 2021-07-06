@@ -1,7 +1,7 @@
 import React from "react"
 import {NavLink, useHistory } from "react-router-dom"
 import { Button, Form, Col } from "react-bootstrap"
-import auth from "../firebase/auth"
+import auth from "../../firebase/auth"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
@@ -48,13 +48,7 @@ function HeaderTwo(){
                         <Button
                             variant="outline-danger"
                             className="button"
-                            onClick = {
-                                // ()=>{
-                                // auth.logout();
-                                // history.push("/")
-                                // }
-                                logout
-                            }
+                            onClick = { logout }
                         >
                         {signOutIcon}
                         </Button>

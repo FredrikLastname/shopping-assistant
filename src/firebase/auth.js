@@ -61,7 +61,7 @@ class Auth{
         if(cookie) {
             this.userID = cookie
             this.authenticated = true
-            console.log("kakan läst: ", cookie);
+            // console.log("kakan läst: ", cookie);
         }
     }
 

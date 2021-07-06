@@ -2,7 +2,7 @@
 import React from "react"
 import ShoppingList from "./ShoppingList"
 import HemText from "./HemText"
-import HeaderTwo from "./HeaderTwo"
+import HeaderTwo from "./Header/HeaderTwo"
 
 import auth from "../firebase/auth"
 import { fireDatabase } from "../firebase/init"
