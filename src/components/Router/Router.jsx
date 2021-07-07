@@ -3,10 +3,9 @@ import { HashRouter, Switch, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute"
 import MainRoute from "./MainRoute";
 
-import Main from "../Main" //Sidan med tips
-// import Welcome from "./Welcome" //Inloggningssidan
-import Home from "../Home" //Sidan med inköpslista
-import PageNotFound from "../PageNotFound"
+import Main from "../../Pages/Main" //Sidan med tips
+import Home from "../../Pages/Home" //Sidan med inköpslista
+import PageNotFound from "../../Pages/PageNotFound"
 
 import FrontPage from "../../Pages/Auth/FrontPage"
 

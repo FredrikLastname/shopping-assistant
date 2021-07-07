@@ -1,9 +1,8 @@
 //Sida som är tänkt att utgöra ramen för innehållet
 import React from "react"
-import ShoppingList from "./ShoppingList"
-import HemText from "./HemText"
-import HeaderTwo from "./Header/HeaderTwo"
-
+import ShoppingList from "../components/ShoppingList"
+import HemText from "../components/HemText"
+import HeaderTwo from "../components/Header/HeaderTwo"
 import auth from "../firebase/auth"
 import { fireDatabase } from "../firebase/init"
 

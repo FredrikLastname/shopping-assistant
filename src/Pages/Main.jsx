@@ -4,11 +4,12 @@ import {Spinner} from "react-bootstrap";
 
 import { removePost } from "../scripts/delete"
 
-import Offer from "./Offer"
-import Header from "./Header/Header";
-import NoOffers from "./NoOffers";
-import NoOffersFilter from "./NoOffersFilter";
-import AddOffer from "./AddOffer";
+import Offer from "../components/Offer"
+import Header from "../components/Header/Header";
+import NoOffers from "../components/NoOffers";
+import NoOffersFilter from "../components/NoOffersFilter";
+
+import AddOffer from "../components/AddOffer";
 import auth from "../firebase/auth"
 
 class Main extends React.Component {
