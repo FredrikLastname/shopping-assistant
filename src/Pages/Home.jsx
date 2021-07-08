@@ -3,9 +3,9 @@ import React from "react"
 import ShoppingList from "../components/ShoppingList"
 import HemText from "../components/HemText"
 import HeaderTwo from "../components/Header/HeaderTwo"
-import auth from "../firebase/auth"
-import { fireDatabase } from "../firebase/init"
-
+// import auth from "../firebase/auth"
+// import { fireDatabase } from "../firebase/init"
+import { getName } from "../scripts/getName"
 
 class Home extends React.Component{
 
@@ -22,21 +22,11 @@ class Home extends React.Component{
     }
 
     getUserName(){
-        
-        // const uid = auth.getUid()
-        const uid = auth.getUid()
-        const ref = fireDatabase.collection("users").where("user_id", "==", uid)
 
-        ref.get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-            this.setState(()=>({userName: doc.data().name}))
-        });
+        getName().then(res =>{
+            // console.log("res: ", res);
+            this.setState(()=>({userName: res}))
         })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
-        })
-
     }
 
     render(){

@@ -6,21 +6,21 @@ const editIcon = <FontAwesomeIcon icon={faEdit} />
 
 function NoOffers(props){
 
-    function addOffer(e){
+    function handleClick(e){
         e.preventDefault();
-        props.addOfferClicked();
+        props.buttonClicked();
     }
 
     return(
         <div className="post">
             <div className="post-content">
-                <p className="title">Det finns inga erbjudanden upplagda. Har du något du vill tipsa om?</p>
+                <p className="title">{props.postText}</p>
                 <Button 
                     className="button" 
-                    variant="outline-success"
-                    onClick = {addOffer}
+                    variant={props.variant}
+                    onClick = {handleClick}
                 >
-                {editIcon}
+                {props.listEmpty ? editIcon : "Återställ filter"}
                 </Button>
             </div>
         </div>

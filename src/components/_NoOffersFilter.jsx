@@ -4,19 +4,19 @@ import {Button} from "react-bootstrap";
 
 function NoOffersFilter(props){
 
-    function resetFilters(e){
+    function handleClick(e){
         e.preventDefault();
-        props.resetClicked();
+        props.buttonClicked();
     }
 
     return(
         <div className="post">
             <div className="post-content">
-                <p className="title">Inga erbjudanden passade dina sökkriterier!</p>
+                <p className="title">{props.postText}</p>
                 <Button 
                 className="button" 
-                variant="danger" 
-                onClick = {resetFilters}
+                variant={props.variant}
+                onClick = {handleClick}
                 >
                 Återställ filter
                 </Button>

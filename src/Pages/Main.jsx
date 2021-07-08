@@ -7,10 +7,11 @@ import { removePost } from "../scripts/delete"
 import Offer from "../components/Offer"
 import Header from "../components/Header/Header";
 import NoOffers from "../components/NoOffers";
-import NoOffersFilter from "../components/NoOffersFilter";
+// import NoOffersFilter from "../components/_NoOffersFilter";
 
 import AddOffer from "../components/AddOffer";
-import auth from "../firebase/auth"
+import { getName } from "../scripts/getName";
+// import auth from "../firebase/auth"
 
 class Main extends React.Component {
     
@@ -24,7 +25,7 @@ class Main extends React.Component {
         this.filterLocations = this.filterLocations.bind(this);
         this.filterTest = this.filterTest.bind(this);
         this.resetFilters = this.resetFilters.bind(this);
-        this.getName = this.getName.bind(this);
+        this.getUserName = this.getUserName.bind(this);
 
         this.state={
             categories: [],
@@ -105,24 +106,19 @@ class Main extends React.Component {
 
     componentDidMount(){
         //Om data redan finns bör inte dessa operationer upprepas. T ex då användare går mellan sidor
-        this.getName()
+        this.getUserName()
         this.getOffers();
     }
 
-    getName(){
-        const uid = auth.getUid()
-        const ref = fireDatabase.collection("users").where("user_id", "==", uid)
-        ref.get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-            // console.log("username -> ", doc.data().name);
-            this.setState(()=>({userName: doc.data().name}))
-        });
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
-        })
 
+    
+
+    getUserName(){
+        
+        getName().then(res =>{
+            // console.log("res: ", res);
+            this.setState(()=>({userName: res}))
+        })
     }
 
     //För att skapa ett tips
@@ -288,13 +284,19 @@ class Main extends React.Component {
 
                     {(this.state.offers.length === 0 && !this.state.loading) && 
                     <NoOffers 
-                        addOfferClicked = {this.addOffer}
+                        buttonClicked = {this.addOffer}
+                        listEmpty = {true}
+                        variant="outline-success"
+                        postText = "Det finns inga erbjudanden upplagda. Har du något du vill tipsa om?"
                     />}
 
                     {(!this.state.addOfferState && !this.state.loading && this.state.offers.length !== 0) && 
                         (this.filterTest().length === 0  ? 
-                            <NoOffersFilter 
-                                resetClicked = {this.resetFilters} 
+                            <NoOffers 
+                                buttonClicked = {this.resetFilters}
+                                listEmpty = {false}
+                                variant = "danger"
+                                postText = "Inga erbjudanden passade dina sökkriterier!" 
                             /> : 
                             this.filterTest().map(this.createOffer))
                     }
