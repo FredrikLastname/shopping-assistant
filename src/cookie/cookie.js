@@ -1,6 +1,6 @@
 import Cookies from "js-cookie"
 
-const setCookie =(uid, expires = 2)=>{
+const setCookie =(uid, expires = 5)=>{
     Cookies.set("shoppingAssistantCookie", uid, {expires: expires})
 }
 

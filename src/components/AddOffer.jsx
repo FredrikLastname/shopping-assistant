@@ -3,7 +3,8 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
 
 import RequiredFieldSmallAlert from "./RequiredFieldSmallAlert";
-import {Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
@@ -74,11 +75,13 @@ function AddOffer(props){
         <p className ="title">Tipsa andra om ett erbjudande!</p>
         <Form.Group controlId="exampleForm.ControlSelect1">
             {(!validation && !offer.category) && <RequiredFieldAlert />}
+
             <Form.Control 
               as="select"
               name="category"
               onChange={onInputChange}
               className="dropdown"
+              title="Test"
             >
               <option className="option">Välj kategori</option>
               <option className="option">Livsmedel</option>
@@ -186,11 +189,11 @@ function AddOffer(props){
           <Form.Row>
             <Col>
               <Form.Group controlId="exampleForm.ControlInput1">
-                
+
                 <Form.Control
                   type="date"
                   name="expires"
-                  
+                  title="Katt"
                   min = {new Date(Date.now()).toLocaleDateString()} 
                   onChange={onInputChange}
                   placeholder="erbjudandet upphör den..." 

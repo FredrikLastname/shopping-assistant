@@ -1,16 +1,12 @@
 import React from "react";
 import { fireDatabase } from "../firebase/init"
 import {Spinner} from "react-bootstrap";
-
-import { removePost } from "../scripts/delete"
-
 import Offer from "../components/Offer"
 import Header from "../components/Header/Header";
 import NoOffers from "../components/NoOffers";
-// import NoOffersFilter from "../components/_NoOffersFilter";
-
 import AddOffer from "../components/AddOffer";
 import { getName } from "../scripts/getName";
+import { removePost } from "../scripts/delete"
 // import auth from "../firebase/auth"
 
 class Main extends React.Component {
@@ -109,9 +105,6 @@ class Main extends React.Component {
         this.getUserName()
         this.getOffers();
     }
-
-
-    
 
     getUserName(){
         

@@ -11,7 +11,6 @@ const FrontPage = () =>{
     
     const [isLoginPage, setIsLoginPage] = useState(true)
 
-
     const switchPage = () =>{
         setIsLoginPage(!isLoginPage)
     }
@@ -51,7 +50,7 @@ const FrontPage = () =>{
                             cookieName="shoppingAssistantConsentCookie"
                             style={{ background: "#2B373B" }}
                             buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
-                            expires={1}
+                            expires={4}
                     >
                     Den lilla shoppingassistenten använder ett par små cookies för att göra livet lite enklare för användaren. Ok?
                     </CookieConsent>

@@ -11,7 +11,6 @@ const smile = <FontAwesomeIcon icon={faGrinAlt} />
 const signOutIcon = <FontAwesomeIcon icon={faSignOutAlt} />
 
 function HeaderTwo(){
-    // const {url} = useRouteMatch();
     const history = useHistory();
     
     function logout(){

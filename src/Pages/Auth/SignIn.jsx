@@ -11,8 +11,6 @@ import CryptoJS from "crypto-js";
 import { getCookieConsentValue } from "react-cookie-consent";
 import AlertComp from "../../components/AlertComp";
 import auth from "../../firebase/auth";
-//import Container from '@material-ui/core/Container';
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {

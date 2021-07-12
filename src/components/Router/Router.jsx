@@ -6,7 +6,6 @@ import MainRoute from "./MainRoute";
 import Main from "../../Pages/Main" //Sidan med tips
 import Home from "../../Pages/Home" //Sidan med inköpslista
 import PageNotFound from "../../Pages/PageNotFound"
-
 import FrontPage from "../../Pages/Auth/FrontPage"
 
 const Router=()=>(
@@ -14,8 +13,6 @@ const Router=()=>(
     <HashRouter>
         <div>
             <Switch>
-                {/* <Route path="/" component = { FrontPage } exact = {true}/> */}
-                
                 <MainRoute exact path="/" component = { FrontPage } />
                 <ProtectedRoute path="/home" component = { Home } />
                 <ProtectedRoute path="/2" component = { Main } />

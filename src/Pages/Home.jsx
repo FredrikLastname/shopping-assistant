@@ -3,8 +3,6 @@ import React from "react"
 import ShoppingList from "../components/ShoppingList"
 import HemText from "../components/HemText"
 import HeaderTwo from "../components/Header/HeaderTwo"
-// import auth from "../firebase/auth"
-// import { fireDatabase } from "../firebase/init"
 import { getName } from "../scripts/getName"
 
 class Home extends React.Component{

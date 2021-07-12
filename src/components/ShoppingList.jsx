@@ -49,7 +49,7 @@ class ShoppingList extends React.Component {
         
         const tempArray =[];
         const uid = this.state.uid
-
+        
         // console.log("Hejsan! ",uid);
         // console.log("fr shoppingList/getShoppingList 1");
         const fetchedList = fireDatabase.collection("lists").doc(uid)
@@ -79,7 +79,7 @@ class ShoppingList extends React.Component {
     }
 
     async saveShoppingList(newList){
-        console.log("fr shoppingList/saveShoppingList");
+        //console.log("fr shoppingList/saveShoppingList");
         const uid = auth.getUid()
         // console.log(newList);
         const fetchedList = fireDatabase.collection("lists").doc(uid)
@@ -118,7 +118,6 @@ class ShoppingList extends React.Component {
         })
 
         this.saveShoppingList(tempArray).then(()=>{
-            
             this.uncheckCheckBoxes();
         })
         // this.getShoppingList(tempUid)
